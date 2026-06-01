@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Board, Column, JobApplication } from "../models/models.types";
-import { updateJobApplication } from "../actions/job-applications";
+import { updateJobApplication } from "@/lib/actions/job-applications";
+import { Board, Column, JobApplication } from "@/lib/models/models.types";
 
 export function useBoard(initialBoard?: Board | null) {
   const [board, setBoard] = useState<Board | null>(initialBoard || null);
@@ -11,6 +11,7 @@ export function useBoard(initialBoard?: Board | null) {
 
   useEffect(() => {
     if (initialBoard) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setBoard(initialBoard);
       setColumns(initialBoard.columns || []);
     }
