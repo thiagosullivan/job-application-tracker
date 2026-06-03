@@ -10,7 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { updateJobApplication } from "@/lib/actions/job-applications";
+import {
+  deleteJobApplication,
+  updateJobApplication,
+} from "@/lib/actions/job-applications";
 import {
   Dialog,
   DialogContent,
@@ -33,6 +36,7 @@ export default function JobApplicationCard({
   job,
   columns,
 }: JobApplicationCardProps) {
+  const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     company: job.company,
@@ -59,6 +63,18 @@ export default function JobApplicationCard({
 
       if (!result.error) {
         setIsEditing(false);
+      }
+    } catch (err) {
+      console.error("Failed to move job application: ", err);
+    }
+  }
+
+  async function handleDelete() {
+    try {
+      const result = await deleteJobApplication(job._id);
+
+      if (result.error) {
+        console.error("Failed to delete job application:", result.error);
       }
     } catch (err) {
       console.error("Failed to move job application: ", err);
